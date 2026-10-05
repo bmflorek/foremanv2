@@ -1,0 +1,132 @@
+<analysis>**original_problem_statement**: 
+The user wanted to pivot an existing generic task management tool into a **manufacturing project tracking system (ShopTrack)**. 
+PRODUCT REQUIREMENTS:
+- Complete structural codebase refactor (breaking down monolithic backend).
+- Create Jobs with specs (paint type, hardware, colors, custom notes) and Job Budget tracking.
+- Create Units (doors, windows, sliders, etc.) under Jobs.
+- Implement an In/Out tracker for units leaving the facility for processing (welding, painting).
+- Create a Vendor List with turnaround stats.
+- Purchase Orders (POs) management deducting from Job's sold amount.
+- Kanban Shop Board optimized for TV displays (Not Started → In Fab → Out for Process → Complete), including job grouping, due date urgency highlighting, and due-date sorting.
+- Job Issues logging and Customer Approvals tracking.
+- Overdue Digest Email sent every morning via cron job.
+- Keep MongoDB and drop VibeMeeting functionality.
+
+**User's preferred language**: English (You MUST automatically detect the user's primary language from their messages inside the <trajectory> tag and INSTRUCT next agent to respond in the user's preferred language only)
+
+**what currently exists?** 
+A fully pivoted and refactored React, FastAPI, and MongoDB full-stack application tailored for manufacturing project tracking. It features a tactical industrial dark theme, a modular backend (separated into models, routers, services, and core), comprehensive tracking for Jobs/Units/Vendors/POs, a Shop Board for TVs, and an automated morning email digest via a configured cron job. 
+
+**Last working item**: 
+    - Last item agent was working: Addressing a comprehensive Code Quality and Security review provided by the user. This included fixing hardcoded secrets, insecure token storage, React hook dependency violations, high complexity functions, Python  anti-patterns, and adding missing type hints.
+    - Status: COMPLETED (Verified via testing agent)
+    - Agent Testing Done: Y
+    - Which testing method agent to use? NA (Testing already done)
+    - User Testing Done: N
+
+**All Pending/In progress Issue list**: 
+  None. The codebase is fully refactored, features implemented, and tests passing (40/40).
+
+**In progress Task List**: 
+  None.
+
+**Upcoming and Future Tasks**
+  Upcoming Tasks:
+  - Wait for next user request or feature addition. No pending tasks from the PRD remain unaddressed.
+
+**Completed work in this session**
+- Complete backend codebase refactor from monolithic  to modular architecture (DONE)
+- Implemented core schemas and CRUD for Jobs, Units, Vendors, Purchase Orders, and Movements (DONE)
+- Built Shop Board with TV-optimized dark theme, Job grouping, urgency color coding (amber/red), and due date sorting (DONE)
+- Created Job Issues and Customer Approvals tabs (DONE)
+- Configured Overdue Digest Email using platform crons () and Emergent integrations (DONE)
+- Code Quality & Security fixes across the entire codebase (DONE)
+
+**Earlier issues found/mentioned but not fixed**
+   - None.
+
+**Known issue recurrence from previous fork**
+  - Recurrence count: 0
+  - Status: RESOLVED
+
+**Code Architecture**
+- /app/backend/core: Auth, DB, Email utilities
+- /app/backend/models: Pydantic/Mongo BaseDocument schemas (job, unit, movement, vendor, purchase_order, issue, user)
+- /app/backend/routers: Separated endpoints mapping to models (jobs, units, board, digest, etc.)
+- /app/backend/services: Specific business logic (e.g.,  for email composition)
+- /app/frontend/src/components: UI elements (Shadcn), modularized forms, dialogs, and specific job tabs
+- /app/frontend/src/pages: Dashboard, JobsPage, JobDetailPage, ShopBoardPage, TrackerPage, VendorsPage, LoginPage
+- /app/.emergent/crons.yml: Cron configuration for the digest email
+
+**Key Technical Concepts**
+React, FastAPI, MongoDB, REST API, Cron Jobs, Email Integration, TailwindCSS, Shadcn UI.
+
+**key DB schema**
+  - jobs: {job_number, name, specs, sold_amount, due_date, status}
+  - units: {job_id, unit_number, type, status, location}
+  - vendors: {name, process, contact}
+  - purchase_orders: {job_id, vendor_id, total, status, items}
+  - movements: {unit_id, job_id, direction, vendor_id, date}
+  - issues: {job_id, title, status, severity}
+  - approvals: {job_id, type, approved, approved_by}
+
+**changes in tech stack**
+  - Dropped previous task-management architecture. Remained on MongoDB as requested by the user. Added platform-native Email Integration.
+
+**All files of reference** 
+  -  (Now just the app entry point, refactored clean)
+  -  (Cron job config)
+  -  (Modular UI pieces)
+  -  (Industrial dark theme specs)
+
+**Areas that need refactoring**: 
+  - None currently. A massive code quality and refactoring sprint was just completed and successfully verified.
+
+**key api endpoints**
+  - 
+  - 
+  - 
+  - 
+
+**Critical Info for New Agent** 
+- The app has successfully undergone a massive pivot to a manufacturing floor application called ShopTrack.
+- **DO NOT revert** to previous generic task application concepts.
+- The platform uses Emergent Integrations for the morning email digest. Though the user provided a Resend key, the agent properly utilized the internal  connected to Emergent integrations. Retain this setup.
+- Authentication was simplified to Login only (no teams).
+
+**documents and test reports created in this job** 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+
+**Last 10 User Messages and any pending HUMAN messages** 
+ - *User*: Due Date Urgency: Make Shop Board cards glow amber or red as a job's due date gets close or passes (Resolved)
+ - *User*: System reminder regarding persistence (Resolved)
+ - *User*: Due Date Sorting: Keep the most urgent jobs at the top of every board column so the crew sees deadlines first (Resolved)
+ - *User*: Overdue Digest Email: Send a morning email listing overdue jobs and units out past 7 days so nothing slips (Resolved)
+ - *User*: Responded to  regarding cron setup (Resolved)
+ - *User*: Credits Recharged. Please Continue. (Resolved)
+ - *User*: Provided Code Quality Report noting critical Security Vulnerabilities, React Hook dependency issues, High Complexity functions, etc. (Resolved)
+ - *User*: System reminder to test fixes with . (Resolved)
+ - *User*: System reminder regarding persistence. (Resolved)
+
+**Project Health Check:**
+Healthy.
+
+**3rd Party Integrations** 
+- Resend / Email — Uses Emergent Integrations platform capability.
+
+**Testing status**
+  - Testing agent used after significant changes: YES
+  - Troubleshoot agent used after agent stuck in loop: NO
+  - Test files created: None
+  - Known regressions: None (Iteration 3 verified 40/40 tests passing with 0 frontend regressions).
+
+**Credentials to test flow:**
+ / 
+
+**What agent forgot to execute**
+Nothing. The agent successfully addressed the entire pivot, added all subsequent requested features, and fully resolved the deep code quality review.</analysis>

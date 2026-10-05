@@ -1,0 +1,30 @@
+{
+  "summary": "Iteration 3 refactor-regression testing complete. Backend: 40/40 pytest green including 5 new tests covering board urgency sort (non-null due_date asc, null-due-date last per column), /api/board jobs list + filter, /api/cron/digest 401 (no auth / wrong bearer), /api/digest/preview contains 'Morning Digest', cron queued+duplicate dedup via X-Webhook-Id, and SEED_DEMO_EMAIL/SEED_DEMO_PASSWORD env credentials actually log in. One real email WAS sent to bmflorek@gmail.com by the cron queued test (verified via last_sent_at in settings), per the reviewer's one-email-per-run authorization. Frontend: LoginPage refactor regression (wrong-pw toast 'Invalid email or password', register toggle shows Name + 'CREATE ACCOUNT', reset mode shows 'SEND RESET CODE', 'Back to sign in' returns to SIGN IN, brand new user registration lands on /dashboard/jobs) all PASS. Job detail 26207: header renders, Edit Job dialog opens prefilled, all 6 tabs (specs/units/pos/issues/approvals/movements) switch. Units tab: add W9 -> row visible, shadcn Select unit-status-W9 -> in_fab OK, delete W9 w/ confirm OK (row gone). POFormDialog: added 3 lines (total $130), removed MIDDLE via po-line-remove-1, remaining rows kept their values (row0='Line A'/qty=2, row1='Line C'/qty=1, total=$70) — STABLE KEYS CONFIRMED. PO submit creates PO (-PO- suffix seen). DigestSettingsDialog: recipients list renders (bmflorek@gmail.com confirmed via API), add crew@example.com visible, remove works, enabled switch toggle shows 'Digest settings saved' toast, preview tile + recent runs visible; Send Test NOT clicked. Vendors page: 4 vendor-stats cards render, created TEST_UI_Vendor (toast 'TEST_UI_Vendor added') visible on page; cleanup done via API DELETE (200).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_shoptrack.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "routers/digest.py cron_digest: when settings.enabled=false or recipients empty, it returns 'skipped' but does NOT insert the run_id into digest_runs — so a retry with the same X-Webhook-Id after re-enabling will fail to dedupe. Minor edge case; current UI/tests not affected.",
+    "services/digest.py send_digest is scheduled via BackgroundTasks AFTER insert_one — if the server crashes between insert and the task completing, the run is stuck in 'queued' status with no retry logic. Acceptable for MVP; worth noting.",
+    "routers/board.py urgency_key: inside each column, no-due-date units go last and dated units sort asc by date — matches the review spec. However the top-level board doesn't surface 'overdue' as a column itself, just ordering within existing status columns. Confirmed with iteration-3 TestBoardUrgency.",
+    "frontend LoginPage auth-switch-* testids differ from a prior convention (auth-toggle-*) — not a bug, but keep an eye on consumers of these testids in docs/notes.",
+    "POFormDialog LineItemsEditor: po-line-remove-{i} is disabled when only one line remains (good); indices (not stable keys) are used for the TESTID even though li.key is used for React keys. For stable testing semantics, consider using li.key in the data-testid as well (works today since removal reindexes DOM, but testing framework must know to re-query after remove)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_shoptrack.py (appended TestBoardUrgency, TestDigestCron, TestSeedEnvLogin — 8 new assertions across 7 new test methods)"
+  ],
+  "success_rate": {"backend": "100% (40/40)", "frontend": "100% of iteration-3 refactor regression flows"},
+  "test_credentials": "shop@demo.com / shop1234 (seed env-driven; also verified via SEED_DEMO_EMAIL/SEED_DEMO_PASSWORD in /app/backend/.env)",
+  "seed_data_creation": "Transient: TEST_Pytest Job #26299, TEST_cascade jobs (deleted), TEST_UI_Vendor (deleted via API). One real digest email sent to bmflorek@gmail.com by the cron queued test (per reviewer authorization). Seed job 26207 untouched.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend regression: cd /app && python -m pytest backend/tests/test_shoptrack.py -v --junitxml=/app/test_reports/pytest/pytest_results.xml (40 tests, ~85s). TestDigestCron::test_cron_queued_then_duplicate WILL send a real email to the digest recipient on each run; consider gating with an env flag in future iterations. Frontend testids: LoginPage uses auth-email-input/auth-password-input/auth-name-input/auth-submit-button and auth-switch-{register|reset|login}. POFormDialog uses po-line-{description|qty|cost|remove}-{index} (0-based). Shadcn Select pattern: click trigger (e.g. unit-status-W9), wait 300ms, click '{trigger}-option-{value}' with force=True."
+}

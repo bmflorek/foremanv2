@@ -1,0 +1,139 @@
+{
+  "theme": {
+    "mode": "dark",
+    "archetype": "ARCHETYPE 2: THE PERFORMANCE PRO & TACTICAL PRECISION",
+    "primary_color": "#F59E0B",
+    "background_color": "#0F172A",
+    "surface_color": "#1E293B",
+    "border_color": "#334155"
+  },
+  "typography": {
+    "headings": {
+      "family": "Barlow Condensed, Cabinet Grotesk, sans-serif",
+      "h1": "text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight uppercase",
+      "h2": "text-2xl sm:text-3xl font-bold tracking-tight uppercase",
+      "h3": "text-xl sm:text-2xl font-semibold tracking-normal",
+      "h4": "text-lg sm:text-xl font-medium"
+    },
+    "monospace": {
+      "family": "JetBrains Mono, IBM Plex Mono, monospace",
+      "usage": "Job Numbers (e.g., 26207), Unit IDs (W1, W2, D1, BF1, SL1), PO Numbers (26207-PO-01), Dimensions (W x H), Financial Amounts"
+    },
+    "body": {
+      "family": "Plus Jakarta Sans, Inter, sans-serif",
+      "base": "text-base leading-relaxed",
+      "small": "text-sm text-slate-400"
+    }
+  },
+  "colors": {
+    "bg_root": "#0F172A",
+    "bg_card": "#1E293B",
+    "bg_card_hover": "#24334A",
+    "bg_muted": "#1E293B",
+    "border": "#334155",
+    "border_focus": "#F59E0B",
+    "text_primary": "#F8FAFC",
+    "text_secondary": "#94A3B8",
+    "text_muted": "#64748B",
+    "accent_primary": "#F59E0B",
+    "accent_cyan": "#06B6D4",
+    "status_not_started": {
+      "bg": "bg-slate-800/80",
+      "border": "border-slate-600",
+      "text": "text-slate-300",
+      "badge": "bg-slate-700/50 text-slate-300 border-slate-600"
+    },
+    "status_in_fab": {
+      "bg": "bg-blue-950/40",
+      "border": "border-blue-500/50",
+      "text": "text-blue-400",
+      "badge": "bg-blue-500/10 text-blue-400 border-blue-500/30"
+    },
+    "status_out_for_process": {
+      "bg": "bg-amber-950/40",
+      "border": "border-amber-500/50",
+      "text": "text-amber-400",
+      "badge": "bg-amber-500/10 text-amber-400 border-amber-500/30"
+    },
+    "status_complete": {
+      "bg": "bg-emerald-950/40",
+      "border": "border-emerald-500/50",
+      "text": "text-emerald-400",
+      "badge": "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+    },
+    "budget": {
+      "ok": "text-emerald-400 bg-emerald-500",
+      "warning": "text-amber-400 bg-amber-500",
+      "over": "text-red-400 bg-red-500 border-red-500/50"
+    }
+  },
+  "layout_and_navigation": {
+    "app_header": {
+      "style": "sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-6 py-4 flex items-center justify-between",
+      "brand": "Apex Craft Fabrication | Manufacturing Operations & Shop Floor Tracking",
+      "links": [
+        {"name": "Jobs", "path": "/dashboard/jobs", "data_testid": "nav-jobs-link"},
+        {"name": "Shop Board (TV)", "path": "/dashboard/kanban", "data_testid": "nav-shop-board-link"},
+        {"name": "In/Out Tracker", "path": "/dashboard/in-out", "data_testid": "nav-in-out-link"},
+        {"name": "Vendors", "path": "/dashboard/vendors", "data_testid": "nav-vendors-link"}
+      ]
+    },
+    "spacing_scale": "p-4, p-6, p-8 for cards; gap-4 to gap-6 for grid layouts",
+    "grid_system": "High density Grid (MODE B) - Base: grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+  },
+  "key_views_and_components": {
+    "login_page": {
+      "description": "Clean industrial splash page with custom window/door shop imagery and simple email/password auth.",
+      "hero_image": "https://images.unsplash.com/photo-1549492761-123cdcb927aa?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NjZ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBnbGFzcyUyMGFyY2hpdGVjdHVyYWwlMjBkb29yJTIwZmFjYWRlJTIwZGVzaWdufGVufDB8fHx8MTc5MTIyOTkwMXww&ixlib=rb-4.1.0&q=85"
+    },
+    "jobs_list_page": {
+      "description": "Grid of Job cards with 5-digit job ID (YYNNN, e.g. 26207), customer/name, status badge, Sold vs PO spend progress bar, unit breakdown pill counts.",
+      "features": ["Search & filter by Job # or Customer", "New Job Dialog modal", "Financial health status indicator"]
+    },
+    "job_detail_page": {
+      "description": "Comprehensive job detail view with 4 tabs: Specs Sheet, Units Table, Purchase Orders, Movement History.",
+      "specs_sheet_fields": [
+        "Paint Type", "Color", "Hardware Brand", "Hardware Name", "Hinge Type", "Hinge Color", 
+        "Custom Hardware", "Threshold Color", "Glazing Bead Type", "SDL Type", "Glass Type", "Additional Notes (Open line)"
+      ],
+      "po_summary": "Auto PO calculation: Sold Amount - Sum(PO Totals) = Remaining Budget. Visual highlight if over-budget."
+    },
+    "shop_board_kanban": {
+      "columns": ["Not Started", "In Fab", "Out for Process", "Complete"],
+      "tv_mode": {
+        "description": "Large-screen Wall Display Mode (10-15m viewing distance). High contrast, 1.5x larger font sizes, clear unit tags, auto-refresh indicator every 15s, fullscreen toggle (F11/button).",
+        "card_elements": ["Unit ID (e.g. W1, D2, BF1)", "Job # (26207)", "Type & Dimensions", "Vendor name if Out for Process", "Days in current status"]
+      }
+    },
+    "in_out_tracker": {
+      "description": "Facility check-out & check-in system for secondary processing (Welding, Painting, Powder Coating, Anodizing).",
+      "checkout_form": ["Job Select dropdown", "Unit Select dropdown", "Vendor Select dropdown", "Process Notes"],
+      "currently_out_table": ["Unit #", "Job #", "Vendor", "Date Checked Out", "Days Out Badge", "Check-In CTA button"]
+    },
+    "vendors_page": {
+      "description": "CRUD management table and card view for external processing vendors (Welding, Painting, Glazing, Anodizers).",
+      "fields": ["Vendor Name", "Services Provided", "Contact Person", "Phone", "Email", "Address", "Notes"]
+    }
+  },
+  "media_assets": {
+    "workshop_welding": "https://images.unsplash.com/photo-1548088034-2a22735c5e66?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHw0fHxjdXN0b20lMjB3aW5kb3clMjBkb29yJTIwYXJjaGl0ZWN0dXJhbCUyMGZhYnJpY2F0aW9uJTIwbWV0YWwlMjB3b3Jrc2hvcHxlbnwwfHx8fDE3OTEyMjk4OTN8MA&ixlib=rb-4.1.0&q=85",
+    "workshop_frame": "https://images.unsplash.com/photo-1608126842524-7e10c3b18453?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwyfHxjdXN0b20lMjB3aW5kb3clMjBkb29yJTIwYXJjaGl0ZWN0dXJhbCUyMGZhYnJpY2F0aW9uJTIwbWV0YWwlMjB3b3Jrc2hvcHxlbnwwfHx8fDE3OTEyMjk4OTN8MA&ixlib=rb-4.1.0&q=85",
+    "architectural_facade": "https://images.unsplash.com/photo-1600849201385-980094c9037a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NjZ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBnbGFzcyUyMGFyY2hpdGVjdHVyYWwlMjBkb29yJTIwZmFjYWRlJTIwZGVzaWdufGVufDB8fHx8MTc5MTIyOTkwMXww&ixlib=rb-4.1.0&q=85"
+  },
+  "testing_and_accessibility": {
+    "data_testid_convention": "kebab-case, role-based. MANDATORY on all buttons, links, inputs, cards, status badges, and tabs.",
+    "examples": [
+      "data-testid=\"create-job-button\"",
+      "data-testid=\"job-card-26207\"",
+      "data-testid=\"tv-mode-toggle-button\"",
+      "data-testid=\"checkout-unit-submit-button\"",
+      "data-testid=\"po-add-line-item-button\""
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Use standard JavaScript (.js / .jsx) components as configured in the frontend application.",
+    "Maintain strict high contrast dark theme for shop-floor TV readability.",
+    "Always validate PO costs deducted from Job sold amount and display remaining budget alerts.",
+    "Ensure complete data-testid attributes on every interactive element."
+  ]
+}

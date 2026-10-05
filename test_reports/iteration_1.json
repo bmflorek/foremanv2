@@ -1,0 +1,31 @@
+{
+  "summary": "Comprehensive backend + frontend testing of ShopTrack pivot (manufacturing project tracker). Backend: 26/26 pytest tests passed covering auth, jobs (incl. 5-digit validation, cascade delete, budget enrichment), units (normalization W1a/BF2, type auto-derivation, duplicate+invalid rejection, checked-out status lock), vendors (CRUD + delete-while-in-use guard), movements (out/in cycle, vendor requirement, double-out, /movements/out enrichment), purchase orders (auto-numbering {job}-PO-NN, over-budget flag, cancelled POs excluded, delete restores budget), and shop board (4 columns, excludes quoted/complete jobs, enrichment fields). Frontend: all critical flows worked — login/invalid-password/register-toggle, Jobs grid with seeded card 26207, create job 26288, Job Detail with all 4 tabs (specs/units/pos/movements), Unit creation with type auto-derivation (d3 -> D3 Door), duplicate unit error toast, PO creation with live total ($800) and over-budget alert on $20k PO, Vendors grid (4 seeded), Shop Board with all 4 columns, TV mode at /board, logout clears session, /dashboard/* protected (redirects to /login), old /dashboard/meetings redirects away (no VibeMeeting). In/Out Tracker: full checkout -> currently-out list -> checkin -> recent movements log verified end-to-end with success toast.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_shoptrack.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "routers/jobs.py enrich_job runs N+1 queries (one units + one POs query per job) in list_jobs — fine for ~100 jobs but could be optimized with a $lookup aggregation at larger scale.",
+    "routers/auth.py register endpoint does not enforce a minimum password length server-side (only the frontend form has minLength=6). Consider adding Pydantic validation.",
+    "models/unit.py normalize_unit_number allows prefix lengths 1-3 letters, so unknown prefixes (e.g. 'XY1') are accepted as unit_type='custom'. This is intentional per spec but worth documenting.",
+    "routers/purchase_orders.py uses count_documents+1 as PO sequence; deleting a PO and creating a new one can produce duplicate PO numbers if an earlier PO was deleted. Consider using max(existing seq)+1.",
+    "routers/movements.py: when checking in, movement is logged with vendor_id/vendor_name from the vendor the unit was checked out to — correct; however if the vendor was deleted externally (not possible via API due to guard) this would silently return empty vendor_name. Minor edge."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_shoptrack.py (new)",
+    "/app/backend/tests/__init__.py (new)"
+  ],
+  "success_rate": {"backend": "100% (26/26)", "frontend": "100% of 14 checked flows"},
+  "test_credentials": "shop@demo.com / shop1234 (seeded)",
+  "seed_data_creation": "During testing a few TEST_ jobs (26288, 26294, 26290) and TEST_ vendors were created and deleted. Seed job 26207 and 4 seeded vendors remain intact. One leftover: test user from register endpoint test (TEST_<uuid>@example.com) remains in DB (no delete-user API).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend regression suite at /app/backend/tests/test_shoptrack.py (pytest, 26 tests, ~11s). Run with: cd /app && REACT_APP_BACKEND_URL=<url> python -m pytest backend/tests/ --junitxml=/app/test_reports/pytest/pytest_results.xml. Shadcn Select pattern confirmed working: click trigger (data-testid) then click option with data-testid '{triggerTestId}-option-{value}', wait 200-400ms. All data-testid attributes used in requirements are present in UI. Seed job 26207 should not be deleted in future tests — use 26288/26294/26290 or similar for destructive flows."
+}
