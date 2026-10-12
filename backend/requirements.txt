@@ -24,7 +24,7 @@ fastuuid==0.14.0
 filelock==3.20.3
 flake8==7.3.0
 frozenlist==1.8.0
-fsspec==2025.10.0
+fsspec==2026.9.0
 google-ai-generativelanguage==0.6.15
 google-api-core==2.28.1
 google-api-python-client==2.186.0
@@ -61,7 +61,7 @@ multidict==6.9.1
 mypy==1.18.2
 mypy_extensions==1.1.0
 numpy==2.3.4
-oauthlib==3.3.1
+oauthlib==4.0.0
 openai==1.99.9
 packaging==25.0
 pandas==2.3.3
@@ -84,7 +84,7 @@ Pygments==2.20.0
 PyJWT==2.15.0
 pymongo==4.18.2
 pyparsing==3.2.5
-pytest==8.4.2
+pytest==9.1.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 python-http-client==3.3.7
